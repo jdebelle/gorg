@@ -47,7 +47,7 @@ always have access to your files:
    :caption: Contents:
 
    commands
-   gorgmeta
+   gorgasset
    gorggen
    gorgrule
    

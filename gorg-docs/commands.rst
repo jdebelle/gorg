@@ -12,8 +12,8 @@ Subcommands
 
 init *ASSET_PATH*
     Initialize a gorg asset. The asset can either be a file or a folder.
-    This will create a template gorgmeta file and will open a text editor
-    to edit the file. Upon closing, basic validation of the gorgmeta file
+    This will create a template gorgasset file and will open a text editor
+    to edit the file. Upon closing, basic validation of the gorgasset file
     will be done.
 
 

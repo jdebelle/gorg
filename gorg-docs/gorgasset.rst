@@ -1,4 +1,4 @@
-.gorgmeta File
+.gorgasset File
 =================
 
 Gorg uses special files, called meta files, which contain information about a given
@@ -14,9 +14,9 @@ file's name is enough to determine that it is a gorg meta file and to determine
 which asset it belongs to. The name of the meta file will follow one of the
 following conventions:
 
-* :code:`<path of the folder asset>/<name of the folder asset>/.gorgmeta`
-* :code:`<path of folder asset>/<name of the folder asset>.gorgmeta` -- NOT SUPPORTED YET, MAYBE FUTURE
-* :code:`<path of file asset>/<name of the file asset>.<ext>.gorgmeta` -- NOT SUPPORTED YET, MAYBE FUTURE
+* :code:`<path of the folder asset>/<name of the folder asset>/.gorgasset`
+* :code:`<path of folder asset>/<name of the folder asset>.gorgasset` -- NOT SUPPORTED YET, MAYBE FUTURE
+* :code:`<path of file asset>/<name of the file asset>.<ext>.gorgasset` -- NOT SUPPORTED YET, MAYBE FUTURE
 
 
 Meta File Content
@@ -32,7 +32,7 @@ but that will help SAM return more relevant search results.
 Example Meta File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is an example of a simple .gorgmeta file. It contains a title and
+Here is an example of a simple .gorgasset file. It contains a title and
 a description, a series of keywords and a custom class field::
 
   Title: Biology 101 - Second Assignement

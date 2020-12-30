@@ -1,3 +1,9 @@
-
+.vscode/
 
 gorg-docs/_build/
+
+
+gorg-cli/bin/
+gorg-cli/extern/
+gorg-cli/out/
+gorg-cli/.vs/

@@ -19,7 +19,6 @@ The following is an example gorggen file::
         /g/My Drive/
 
     
-    
         
     
 
