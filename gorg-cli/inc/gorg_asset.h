@@ -1,3 +1,4 @@
+#pragma once
 
 #include <vector>
 #include <optional>
@@ -10,13 +11,19 @@ public:
 
 	bool IsValid();
 
-	std::string GetTitle();
-	std::string GetDescription();
+	std::string GetTitle() const;
+	std::string GetDescription() const;
 
+	void AddKeyword(const std::string& keyword);
+	const std::vector<std::string>& GetKeywords() const;
 
 private:
 	std::string title_;
 	std::string description_;
+
+	std::string absolute_path_;
+	std::string relative_path_;
+
 	std::vector<std::string> keywords_;
 };
 

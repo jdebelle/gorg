@@ -14,16 +14,19 @@ set(Boost_USE_MULTITHREADED ON)
 
 
 FIND_PACKAGE( Boost 1.75 REQUIRED COMPONENTS program_options)
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} "inc")
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} "inc" "extern/yaml-cpp/include")
 LINK_DIRECTORIES( ${Boost_LIBRARY_DIR} )
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURC_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin)
 
 if (MSVC)
     # warning level 4 and all warnings as errors
@@ -38,7 +41,6 @@ file(GLOB GORG_SRC "src/*.cpp")
 
 add_executable(gorg ${GORG_SRC})
 
-
 message("Program Options Path:${Boost_PROGRAM_OPTIONS_LIBRARY}")
-TARGET_LINK_LIBRARIES( gorg ${Boost_PROGRAM_OPTIONS_LIBRARY} )
+TARGET_LINK_LIBRARIES( gorg ${Boost_PROGRAM_OPTIONS_LIBRARY} "${CMAKE_SOURCE_DIR}/extern/yaml-cpp/yaml-cppd.lib")
 #TARGET_LINK_LIBRARIES( gorg libboost_program_options-vc142-mt-gd-x64-1_75)

@@ -1,7 +1,13 @@
 
 #include <iostream>
+#include <filesystem>
+
+#pragma warning( push, 0 )
 #include <boost/program_options.hpp>
+#pragma warning( pop )
+
 #include "command_processor.h"
+
 
 namespace po = boost::program_options;
 
@@ -9,6 +15,9 @@ namespace po = boost::program_options;
 
 int main (int argc, char * argv[])
 {
+    std::filesystem::path executable_dir(argv[0]);
+    executable_dir.remove_filename();
+
     po::options_description desc("Allowed Options");
     desc.add_options()
         ("help", "produce help message")
@@ -39,7 +48,12 @@ int main (int argc, char * argv[])
         command.emplace(command_iterator->second.as<std::string>());
     
     
-    CommandProcessor command_processor(desc, command, vm);
+    CommandProcessor command_processor(
+        executable_dir, 
+        std::filesystem::current_path(), 
+        desc, 
+        command, 
+        vm);
 
     return command_processor.Invoke();
     

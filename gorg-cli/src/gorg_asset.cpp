@@ -7,12 +7,12 @@ GorgAsset::GorgAsset(const std::string& title, const std::string& description)
 	description_ = description;
 }
 
-std::string GorgAsset::GetTitle()
+std::string GorgAsset::GetTitle() const
 {
 	return title_;
 }
 
-std::string GorgAsset::GetDescription()
+std::string GorgAsset::GetDescription() const
 {
 	return description_;
 }
@@ -28,5 +28,14 @@ bool GorgAsset::IsValid()
 	return true;
 }
 
+void GorgAsset::AddKeyword(const std::string& keyword)
+{
+	keywords_.push_back(keyword);
+}
+
+const std::vector<std::string>& GorgAsset::GetKeywords() const
+{
+	return keywords_;
+}
 
 

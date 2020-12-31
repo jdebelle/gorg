@@ -16,6 +16,9 @@ init *ASSET_PATH*
     to edit the file. Upon closing, basic validation of the gorgasset file
     will be done.
 
+validate *PATH*
+    Run validation scheme on speficied folder and subfolders. If there are
+    .gogrule files in the hierarchy, they will be taken into consideration.
 
 generate *GORGGEN_FILE*
     This will build an index which can then be used to easily search and

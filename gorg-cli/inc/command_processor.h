@@ -1,7 +1,9 @@
+#pragma once
 
 #include <map>
 #include <string>
 #include <optional>
+#include <filesystem>
 
 #include <boost/program_options.hpp>
 
@@ -11,11 +13,18 @@ using Command = std::optional<std::string>;
 class CommandProcessor
 {
 public:
-	CommandProcessor(po::options_description options_description, Command command, po::variables_map variables_map);
+	CommandProcessor(
+		const std::filesystem::path& executable_dir,
+		const std::filesystem::path& working_dir,
+		const po::options_description& options_description, 
+		const Command& command, 
+		const po::variables_map& variables_map);
 
 	int Invoke();
 
 private:
+	const std::filesystem::path executable_dir_;
+	const std::filesystem::path working_dir_;
 	const Command command_;
 	const po::variables_map variables_map_;
 	const po::options_description options_description_;
@@ -25,5 +34,9 @@ private:
 	int EmptyCommand();
 	void PrintHelp();
 	int Init();
+	int Validate();
+
+	int EditTextFile(const std::filesystem::path& path);
+	bool CreateFromTemplateIfNotExist(const std::filesystem::path& template_file, const std::filesystem::path& path, std::error_code& error_code);
 };
 
