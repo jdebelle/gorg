@@ -14,7 +14,12 @@ set(Boost_USE_MULTITHREADED ON)
 
 
 FIND_PACKAGE( Boost 1.75 REQUIRED COMPONENTS program_options)
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} "inc" "extern/yaml-cpp/include")
+INCLUDE_DIRECTORIES( 
+    ${Boost_INCLUDE_DIR} 
+    "inc" 
+    "extern/yaml-cpp/include" 
+    "extern/nlohmann-json" 
+    "extern/inja")
 LINK_DIRECTORIES( ${Boost_LIBRARY_DIR} )
 
 # specify the C++ standard

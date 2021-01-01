@@ -9,9 +9,10 @@ class GorgAssetFile
 {
 public:
 	GorgAssetFile(const std::filesystem::path& path);
-	bool IsValid();
-	std::string GetErrorMsg();
-	const GorgAsset& GetAsset();
+	bool IsValid() const;
+	std::string GetErrorMsg() const;
+	const GorgAsset& GetAsset() const;
+	const std::filesystem::path& GetPath() const;
 
 private:
 	const std::filesystem::path path_;

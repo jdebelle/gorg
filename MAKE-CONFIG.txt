@@ -1,1 +1,2 @@
-BROWSER="/c/Program Files (x86)/Mozilla Firefox/firefox.exe"
+BROWSER=/c/Program Files (x86)/Mozilla Firefox/firefox.exe
+INSTALL_PATH=/c/Program Files/Gorg

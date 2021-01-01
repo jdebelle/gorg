@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <filesystem>
+#include <queue>
 
 #pragma warning( push, 0 )
 #include <boost/format.hpp>
@@ -12,6 +13,7 @@
 
 #include "project_paths.h"
 #include "gorg_asset_file.h"
+#include "asset_collection.h"
 
 enum class Status
 {
@@ -178,6 +180,26 @@ int CommandProcessor::Init()
 
 int CommandProcessor::Validate()
 {
-	std::cout << "Run the validate function!" << std::endl;
+	AssetCollection asset_collection(working_dir_);
+
+	for (const auto& asset : asset_collection.GetAssets())
+	{
+		if (!asset.IsValid())
+		{
+			std::cout << "Error found in " << asset.GetPath() << std::endl;
+			std::cout << asset.GetErrorMsg() << std::endl;
+			return 1;
+		}
+	}
+	
+	std::cout << "Scanned " << asset_collection.GetAssets().size() << " gorgassets" << std::endl;
+	std::cout << "No Errors Found" << std::endl;
+	return 0;
+}
+
+int CommandProcessor::Generate()
+{
+	std::cout << "Run Generate" << std::endl;
+
 	return 0;
 }

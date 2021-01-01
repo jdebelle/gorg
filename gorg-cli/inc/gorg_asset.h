@@ -9,7 +9,7 @@ class GorgAsset
 public:
 	GorgAsset(const std::string& title, const std::string& description);
 
-	bool IsValid();
+	bool IsValid() const;
 
 	std::string GetTitle() const;
 	std::string GetDescription() const;

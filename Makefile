@@ -1,8 +1,8 @@
 
 
-browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/BROWSER\s*=\s*(.*)/\1/")
-
-
+browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
+install_path := $(shell grep INSTALL_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
+version := 0.0.0
 
 
 
@@ -12,7 +12,8 @@ browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/BROWSER\s*=\s*(.*)/\
 
 
 .PHONY: cli					# Build the gorg CLI binaries
-cli: 
+cli: gorg-cli/bin/gorg.exe
+gorg-cli/bin/gorg.exe:
 	mkdir -p gorg-cli/build
 	cd gorg-cli/build ; cmake .. ; cmake --build .
 
@@ -23,13 +24,18 @@ clean-cli:
 	rm -rf gorg-cli/bin
 
 
-
-
+.PHONY: install				# Install gorg to the specified path
+install: gorg-cli/bin/gorg.exe
+	mkdir -p "$(install_path)"
+	rm -rf "$(install_path)/bin/"
+	rm -rf "$(install_path)/templates/"
+	cp -r gorg-cli/bin/ "$(install_path)/bin/"
+	cp -r gorg-cli/templates/ "$(install_path)/templates/"
 
 
 .PHONY: docs				# Build Documentation for the Project
 docs: gorg-docs/_build/html/index.html
-	$(browser) gorg-docs/_build/html/index.html
+	"$(browser)" gorg-docs/_build/html/index.html
 gorg-docs/_build/html/index.html: $(shell find gorg-docs -name *.rst)
 	cd gorg-docs ; make html
 

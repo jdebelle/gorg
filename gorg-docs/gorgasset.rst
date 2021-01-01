@@ -35,20 +35,20 @@ Example Meta File
 Here is an example of a simple .gorgasset file. It contains a title and
 a description, a series of keywords and a custom class field::
 
-  Title: Biology 101 - Second Assignement
+  title: Biology 101 - Second Assignement
 
-  Description: This assignment, on basic human biology, counted for 40%
+  description: This assignment, on basic human biology, counted for 40%
     of our mark. It covered the anatomy of the brain and basic neural cell
     structure.
 
-  Keywords:
+  keywords:
     biology
     assignment 
     brain
     neural
     neurons
 
-  Class: BIO101
+  class: BIO101
 
 
     

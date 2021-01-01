@@ -17,7 +17,7 @@ std::string GorgAsset::GetDescription() const
 	return description_;
 }
 
-bool GorgAsset::IsValid()
+bool GorgAsset::IsValid() const
 {
 	if (title_.length() == 0)
 		return false;

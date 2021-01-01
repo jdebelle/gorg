@@ -23,8 +23,8 @@ GorgAssetFile::GorgAssetFile(const path& path) :
 		if (!node.IsMap())
 			return;
 
-		auto title = node["Title"];
-		auto description = node["Description"];
+		auto title = node["title"];
+		auto description = node["description"];
 
 		bool valid_title = (title.IsDefined() && title.IsScalar());
 		bool valid_description = (description.IsDefined() && description.IsScalar());
@@ -41,7 +41,7 @@ GorgAssetFile::GorgAssetFile(const path& path) :
 			return;
 		}
 
-		auto keywords = node["Keywords"];
+		auto keywords = node["keywords"];
 
 		if (keywords.IsDefined() && !keywords.IsSequence())
 		{
@@ -82,7 +82,7 @@ GorgAssetFile::GorgAssetFile(const path& path) :
 	//std::cout << ((keywords.IsDefined() &&  ?  : "NOT DEFINED") << std::endl;
 }
 
-bool GorgAssetFile::IsValid()
+bool GorgAssetFile::IsValid() const
 {
 	if (!gorg_asset_.has_value())
 		return false;
@@ -90,12 +90,17 @@ bool GorgAssetFile::IsValid()
 	return gorg_asset_->IsValid();
 }
 
-std::string GorgAssetFile::GetErrorMsg()
+std::string GorgAssetFile::GetErrorMsg() const
 {
 	return error_msg_.value_or("OK");
 }
 
-const GorgAsset& GorgAssetFile::GetAsset()
+const GorgAsset& GorgAssetFile::GetAsset() const
 {
 	return gorg_asset_.value();
+}
+
+const std::filesystem::path& GorgAssetFile::GetPath() const
+{
+	return path_;
 }
