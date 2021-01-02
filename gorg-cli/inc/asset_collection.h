@@ -9,7 +9,7 @@ class AssetCollection
 {
 public:
 	AssetCollection(const std::filesystem::path& path);
-	const std::vector<GorgAssetFile>& GetAssets();
+	const std::vector<GorgAssetFile>& GetAssets() const;
 
 private:
 	std::vector<GorgAssetFile> asset_files_;

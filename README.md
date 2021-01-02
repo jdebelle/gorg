@@ -10,3 +10,6 @@ https://semver.org/spec/v2.0.0.html
 
 C++ Style Guide:
 https://google.github.io/styleguide/cppguide.html
+
+CSS Style Guide:
+http://getbem.com/introduction/

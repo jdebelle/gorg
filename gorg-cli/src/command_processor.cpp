@@ -14,6 +14,7 @@
 #include "project_paths.h"
 #include "gorg_asset_file.h"
 #include "asset_collection.h"
+#include "html_generator.h"
 
 enum class Status
 {
@@ -41,6 +42,7 @@ CommandProcessor::CommandProcessor(
 {
 	commands_.insert(CommandPair("init", std::bind(&CommandProcessor::Init, this)));
 	commands_.insert(CommandPair("validate", std::bind(&CommandProcessor::Validate, this)));
+	commands_.insert(CommandPair("generate", std::bind(&CommandProcessor::Generate, this)));
 }
 
 int CommandProcessor::Invoke()
@@ -199,7 +201,11 @@ int CommandProcessor::Validate()
 
 int CommandProcessor::Generate()
 {
-	std::cout << "Run Generate" << std::endl;
+	AssetCollection asset_collection(working_dir_);
 
-	return 0;
+	HtmlGenerator html_generator(executable_dir_ / kGorgIndexTemplate);
+
+	html_generator.AddAssetCollection(asset_collection);
+
+	return html_generator.Generate( working_dir_ / "gorgindex.html" );
 }

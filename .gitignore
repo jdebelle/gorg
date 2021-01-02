@@ -8,3 +8,4 @@ gorg-cli/extern/
 gorg-cli/out/
 gorg-cli/.vs/
 gorg-cli/build/
+gorg-cli/templates/gorgindex.html.template

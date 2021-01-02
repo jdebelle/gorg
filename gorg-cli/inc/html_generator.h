@@ -22,7 +22,9 @@ public:
 private:
 	inja::Environment inja_env_;
 	inja::Template inja_template_;
+	nlohmann::json inja_data_;
 	std::vector<GorgAsset> assets_;
+	
 
 };
 

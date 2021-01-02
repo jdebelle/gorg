@@ -3,19 +3,36 @@
 browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 install_path := $(shell grep INSTALL_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 version := 0.0.0
+index_template_output := gorg-index-template/bin/template.html
+index_template_dependencies := gorg-index-template/template.html
+index_template_dependencies += $(shell find gorg-index-template/js)
+index_template_dependencies += $(shell find gorg-index-template/css)
+cli_dependencies := gorg-cli/templates/gorgindex.html.template
+cli_dependencies += $(shell find gorg-cli/src -name *.cpp -o -name *.h -o -name *.hpp)
+cli_dependencies += $(shell find gorg-cli/inc -name *.cpp -o -name *.h -o -name *.hpp)
 
 
 
 
+.PHONY: index-template
+index-template: gorg-index-template/bin/template.html
+gorg-index-template/bin/template.html: $(index_template_dependencies)
+	rm -rf gorg-index-template/bin
+	mkdir -p gorg-index-template/bin
+	cd gorg-index-template ; cat template.html | sed -r "s/(.*)assets-mockup.js(.*)/\1assets.js\2/" | inliner -n > template.html.out
+	mv gorg-index-template/template.html.out $(index_template_output)
+	
 
-
-
+gorg-cli/templates/gorgindex.html.template: gorg-index-template/bin/template.html
+	rm gorg-cli/templates/gorgindex.html.template
+	cp $(index_template_output) gorg-cli/templates/gorgindex.html.template
 
 .PHONY: cli					# Build the gorg CLI binaries
 cli: gorg-cli/bin/gorg.exe
-gorg-cli/bin/gorg.exe:
+gorg-cli/bin/gorg.exe: $(cli_dependencies)
 	mkdir -p gorg-cli/build
 	cd gorg-cli/build ; cmake .. ; cmake --build .
+	
 
 .PHONY: clean-cli			# Clean the gorg CLI binaries
 clean-cli:

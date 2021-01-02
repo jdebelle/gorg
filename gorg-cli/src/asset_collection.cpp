@@ -29,7 +29,7 @@ AssetCollection::AssetCollection(const std::filesystem::path& path)
 	}
 }
 
-const std::vector<GorgAssetFile>& AssetCollection::GetAssets()
+const std::vector<GorgAssetFile>& AssetCollection::GetAssets() const
 {
 	return asset_files_;
 }
