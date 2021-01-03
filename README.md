@@ -1,5 +1,22 @@
 # gorg
 
+
+Current Development Dependencies:
+C++:
+ - boost
+ - inja
+ - nholmann/json
+ - yamlcpp
+
+Html Template Generation:
+ - nodejs
+ - reactjs
+ - inliner (transform into a single file)
+
+
+
+
+
 These are the standards followed by Gorg:
 
 Changelog format:
@@ -13,3 +30,4 @@ https://google.github.io/styleguide/cppguide.html
 
 CSS Style Guide:
 http://getbem.com/introduction/
+

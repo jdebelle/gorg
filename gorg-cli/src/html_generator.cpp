@@ -30,7 +30,7 @@ void HtmlGenerator::AddAssetCollection(const AssetCollection& asset_collection)
 		json_asset["title"] = asset.GetTitle();
 		json_asset["description"] = asset.GetDescription();
 		
-		inja_data_["assetdata"].push_back(json_asset);
+		inja_data_["asset_data"].push_back(json_asset);
 	}
 }
 
