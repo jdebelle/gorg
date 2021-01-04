@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -303,9 +304,9 @@ module.exports = function (webpackEnv) {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
-      runtimeChunk: {
+      runtimeChunk: false /*{
         name: entrypoint => `runtime-${entrypoint.name}`,
-      },
+      },*/
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -567,6 +568,7 @@ module.exports = function (webpackEnv) {
           },
           isEnvProduction
             ? {
+                inlineSource: '.(js|css)$',
                 minify: {
                   removeComments: true,
                   collapseWhitespace: true,
@@ -583,6 +585,7 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+      new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358

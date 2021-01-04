@@ -7,7 +7,7 @@ import queryString from 'query-string';
 
 import assets from './Assets.js';
 
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { HashRouter, Route, Link } from "react-router-dom";
 
 
 const fuseOptions = 
@@ -20,7 +20,7 @@ const fuse = new Fuse(assets, fuseOptions);
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
         <Route exact path="/" render={routeProps => {
           console.log(routeProps);
           const query = queryString.parse(routeProps.location.search);
@@ -35,12 +35,12 @@ function App() {
 
           return(
             <div>
-              <SearchBar query={query.q}/>
+              <SearchBar query={query.q} history={routeProps.history}/>
               <ResultList assets={result} />
             </div>
           );
         }}/>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
