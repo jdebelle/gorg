@@ -1,4 +1,43 @@
 
 
+.result-list
+{
+    width:550px;
+    margin: 0 0 0 165px;
+}
 
+.result-list__count
+{
+    margin:10px 0 0;
+    color:#999999;
+}
 
+.result-item
+{
+    margin-top:20px;
+}
+
+.result-item__title
+{
+    color: rgb(175, 6, 6);
+    font-family: arial, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 26px;
+    text-align: left
+}
+
+.result-item__description
+{
+    margin-top:5px;
+}
+
+.result-item__path
+{
+    color: rgb(95, 99, 104);
+    font-family: arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18.2px
+}

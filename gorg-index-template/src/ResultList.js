@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './SearchBar.css';
+import './ResultList.css';
 
 
 class ResultList extends Component {
@@ -15,12 +15,12 @@ class ResultList extends Component {
             items.push(<ResultItem key={key} asset={this.props.assets[key]}/>);
         
         return (
-            <div>
-                <div>RESULTS:</div>
+            <div className="result-list">
+                <div className="result-list__count">{this.props.assets.length} search results found</div>
                 {items}
             </div>
         );
-        
+
     }
 }
 
@@ -28,10 +28,10 @@ class ResultItem extends Component
 {
     render(){
         return(
-            <div className="search-result-item">
-                <div className="search-result-item__title">{this.props.asset.title}</div>
-                <a href={this.props.asset.path}>Link</a>
-                <div className="search-result-item__description">{this.props.asset.description}</div>
+            <div className="result-item">
+                <div className="result-item__path">{this.props.asset.path}</div>
+                <a className="result-item__title" href={this.props.asset.path}>{this.props.asset.title}</a>
+                <div className="result-item__description">{this.props.asset.description}</div>
             </div>
         );
     }

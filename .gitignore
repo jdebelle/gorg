@@ -1,5 +1,7 @@
 .vscode/
 
+build/
+
 gorg-docs/_build/
 
 

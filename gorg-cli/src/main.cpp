@@ -22,6 +22,7 @@ int main (int argc, char * argv[])
     desc.add_options()
         ("help", "produce help message")
         ("version", "print gorg version")
+        ("init", "initialize")
         ("command", po::value<std::string>(), "command to execute")
         ("subargs", po::value<std::vector<std::string> >(), "Arguments for command");
         

@@ -4,10 +4,12 @@
 #include <stdio.h>
 #include <filesystem>
 #include <queue>
+#include <ctime>
 
 #pragma warning( push, 0 )
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
+#include "inja.hpp"
 #pragma warning( pop )
 
 
@@ -40,7 +42,7 @@ CommandProcessor::CommandProcessor(
 	options_description_(options_description),
 	variables_map_(variables_map)
 {
-	commands_.insert(CommandPair("init", std::bind(&CommandProcessor::Init, this)));
+	commands_.insert(CommandPair("asset", std::bind(&CommandProcessor::Asset, this)));
 	commands_.insert(CommandPair("validate", std::bind(&CommandProcessor::Validate, this)));
 	commands_.insert(CommandPair("generate", std::bind(&CommandProcessor::Generate, this)));
 }
@@ -75,13 +77,44 @@ void CommandProcessor::PrintHelp()
 	std::cout << options_description_ << std::endl;
 }
 
-bool CommandProcessor::CreateFromTemplateIfNotExist(const std::filesystem::path& template_file, const std::filesystem::path& path, std::error_code& error_code)
+
+static inline std::string GetDateString()
+{
+	time_t rawtime;
+	struct tm* timeinfo;
+	char buffer[80];
+
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	strftime(buffer, 80, "%Y-%m-%d", timeinfo);
+	return buffer;
+}
+
+bool CommandProcessor::CreateFromTemplateIfNotExist(const std::filesystem::path& template_file, const std::filesystem::path& path)
 {
 	if (std::filesystem::exists(path))
 		return false;
+
+	inja::Environment inja_env;
+	auto inja_template = inja_env.parse_template(template_file.string());
+	nlohmann::json inja_data;
+
+	inja_data["date"] = GetDateString();
+
+	try
+	{
+		inja_env.write(inja_template, inja_data, path.string());
+		return true;
+	}
+	catch (const inja::RenderError& e)
+	{
+		throw ("Failed to generate template file: " + e.message);
+		return false;
+	}
 	
-	std::filesystem::copy_file(template_file, path, error_code);
-	return true;
+	//std::filesystem::copy_file(template_file, path, error_code);
+	//return true;
 }
 
 int CommandProcessor::EditTextFile(const std::filesystem::path& path)
@@ -119,18 +152,26 @@ int CommandProcessor::EmptyCommand()
 
 
 
-int CommandProcessor::Init()
+int CommandProcessor::Asset()
 {
+	if (variables_map_.count("init") == 0)
+	{
+		std::cout << "The only implemented action is --init" << std::endl;
+		return 1;
+	}
+
+
 	auto template_file = executable_dir_ / kGorgAssetTemplate;
 	auto dst_file = working_dir_ / ".gorgasset";
 
-	std::error_code error_code;
-	if (!CreateFromTemplateIfNotExist(template_file, dst_file, error_code))
-		std::cout << "File already exists, not creating new one" << std::endl;
-
-	if (error_code.value() != 0)
+	try
 	{
-		std::cout << error_code.message() << std::endl;
+		if (!CreateFromTemplateIfNotExist(template_file, dst_file))
+			std::cout << "File already exists, not creating new one" << std::endl;
+	}
+	catch (std::string e)
+	{
+		std::cout << e << std::endl;
 		return 1;
 	}
 
@@ -203,9 +244,9 @@ int CommandProcessor::Generate()
 {
 	AssetCollection asset_collection(working_dir_);
 
-	HtmlGenerator html_generator(executable_dir_ / kGorgIndexTemplate);
+	HtmlGenerator html_generator(executable_dir_ / kGorgIndexTemplate, working_dir_ / "gorgindex.html");
 
 	html_generator.AddAssetCollection(asset_collection);
 
-	return html_generator.Generate( working_dir_ / "gorgindex.html" );
+	return html_generator.Generate();
 }

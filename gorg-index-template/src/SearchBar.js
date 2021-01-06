@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-import { useHistory } from "react-router-dom";
-
+import logo from './logo.png';
 import './SearchBar.css';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+
+let FA = require('react-fontawesome');
+
 
 
 class SearchBar extends Component {
 
     constructor(props)
     {
+        console.log(props);
         super(props);
         this.state = {
-            searchString: 'search here!'    
+            searchString: props.query    
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -42,11 +48,13 @@ class SearchBar extends Component {
     render() {
         return (
             <div className="search-bar">
-                <form className="search-bar__form" onSubmit={this.handleSubmit}>
-                    <input className="search-bar__input" name="searchString" value={this.state.searchString} onChange={this.handleChange} />
-                    <input type="submit" value="Submit" />
-                </form>
-                
+                <img className="search-bar__logo" src={logo} />
+                <div className="search-bar__main">
+                    <form className="search-bar__form" onSubmit={this.handleSubmit}>
+                        <input autoFocus className="search-bar__search-string" name="searchString" value={this.state.searchString} onChange={this.handleChange} />
+                        <button className="search-bar__search-button" type="submit" ><FontAwesomeIcon icon={faSearch} /></button>
+                    </form>
+                </div>
             </div>
         );
     }

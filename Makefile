@@ -2,6 +2,7 @@
 
 browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 install_path := $(shell grep INSTALL_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
+7zip := $(shell grep 7ZIP_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 version := 0.0.0
 index_template_output := gorg-index-template/build/template.html
 index_template_dependencies := $(shell find gorg-index-template/src)
@@ -39,6 +40,16 @@ clean-cli:
 	rm -rf gorg-cli/build
 	rm -rf gorg-cli/out
 	rm -rf gorg-cli/bin
+
+
+.PHONY: build
+build: build/gorg.zip
+build/gorg.zip: gorg-cli/bin/gorg.exe
+	rm -rf build/gorg/
+	mkdir -p build/gorg/
+	cp -r gorg-cli/bin/ build/gorg/bin/
+	cp -r gorg-cli/templates/ build/gorg/templates/
+	cd build/gorg/ ; "$(7zip)" a -tzip ../gorg.zip *
 
 
 .PHONY: install				# Install gorg to the specified path

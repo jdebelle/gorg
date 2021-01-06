@@ -33,11 +33,11 @@ private:
 
 	int EmptyCommand();
 	void PrintHelp();
-	int Init();
+	int Asset();
 	int Validate();
 	int Generate();
 
 	int EditTextFile(const std::filesystem::path& path);
-	bool CreateFromTemplateIfNotExist(const std::filesystem::path& template_file, const std::filesystem::path& path, std::error_code& error_code);
+	bool CreateFromTemplateIfNotExist(const std::filesystem::path& template_file, const std::filesystem::path& path) throw(std::string);
 };
 

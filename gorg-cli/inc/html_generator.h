@@ -15,11 +15,12 @@
 class HtmlGenerator
 {
 public:
-	HtmlGenerator(const std::filesystem::path& html_template);
+	HtmlGenerator(const std::filesystem::path& html_template, const std::filesystem::path& output_path);
 	void AddAssetCollection(const AssetCollection& asset_collection);
-	int Generate(const std::filesystem::path& output_path);
+	int Generate();
 
 private:
+	std::filesystem::path output_file_;
 	inja::Environment inja_env_;
 	inja::Template inja_template_;
 	nlohmann::json inja_data_;
