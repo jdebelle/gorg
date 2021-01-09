@@ -1,5 +1,6 @@
 #include "html_generator.h"
 
+#include <algorithm>
 
 
 
@@ -14,6 +15,23 @@ HtmlGenerator::HtmlGenerator(const std::filesystem::path& path, const std::files
 	inja_data_["assetdata"] = json::array();
 }
 
+static inline std::string FormatPathURI(std::filesystem::path path)
+{
+	std::string result;
+	bool isRelative = path.is_relative();
+
+	if (isRelative)
+		result = path.relative_path().string();
+	else
+		result = path.string();
+
+	std::replace(result.begin(), result.end(), '\\', '/');
+
+	if (!isRelative)
+		result = "file:///" + result;
+
+	return result;
+}
 
 void HtmlGenerator::AddAssetCollection(const AssetCollection& asset_collection)
 {
@@ -34,14 +52,17 @@ void HtmlGenerator::AddAssetCollection(const AssetCollection& asset_collection)
 		json_asset["title"] = asset.GetTitle();
 		json_asset["description"] = asset.GetDescription();
 
-		
-		
-		
 		auto asset_folder = asset_file.GetPath();
 		asset_folder.remove_filename();
-		std::filesystem::path path = std::filesystem::relative(asset_folder, root);
-
-		json_asset["path"] = path.relative_path().string();
+		
+		std::filesystem::path path;
+		if (asset_folder.root_path() == root.root_path())
+			path = std::filesystem::relative(asset_folder, root);
+		else
+			path = std::filesystem::absolute(asset_folder);
+			
+		json_asset["path"] = FormatPathURI(path);
+		
 		
 		inja_data_["asset_data"].push_back(json_asset);
 	}

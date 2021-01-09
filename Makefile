@@ -28,6 +28,13 @@ gorg-cli/templates/gorgindex.html.template: $(index_template_output)
 	rm gorg-cli/templates/gorgindex.html.template
 	cp $(index_template_output) gorg-cli/templates/gorgindex.html.template
 
+
+.PHONY: cli-version
+cli-version: gorg-cli/inc/makefile.h.template
+	cat gorg-cli/inc/makefile.h.template |\
+		sed -r "s/\{\{VERSION_STRING\}\}/\"$(version)\"/" >\
+		gorg-cli/inc/makefile.h
+
 .PHONY: cli					# Build the gorg CLI binaries
 cli: gorg-cli/bin/gorg.exe
 gorg-cli/bin/gorg.exe: $(cli_dependencies)
@@ -44,7 +51,7 @@ clean-cli:
 
 .PHONY: build
 build: build/gorg.zip
-build/gorg.zip: gorg-cli/bin/gorg.exe
+build/gorg.zip: cli-version gorg-cli/bin/gorg.exe
 	rm -rf build/gorg/
 	mkdir -p build/gorg/
 	cp -r gorg-cli/bin/ build/gorg/bin/
@@ -53,7 +60,7 @@ build/gorg.zip: gorg-cli/bin/gorg.exe
 
 
 .PHONY: install				# Install gorg to the specified path
-install: gorg-cli/bin/gorg.exe
+install: cli-version gorg-cli/bin/gorg.exe
 	mkdir -p "$(install_path)"
 	rm -rf "$(install_path)/bin/"
 	rm -rf "$(install_path)/templates/"

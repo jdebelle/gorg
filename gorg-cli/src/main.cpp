@@ -23,6 +23,7 @@ int main (int argc, char * argv[])
         ("help", "produce help message")
         ("version", "print gorg version")
         ("init", "initialize")
+        ("path", po::value<std::vector<std::string>>()->multitoken(), "path to act on")
         ("command", po::value<std::string>(), "command to execute")
         ("subargs", po::value<std::vector<std::string> >(), "Arguments for command");
         

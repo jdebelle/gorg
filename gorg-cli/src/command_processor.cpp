@@ -17,6 +17,7 @@
 #include "gorg_asset_file.h"
 #include "asset_collection.h"
 #include "html_generator.h"
+#include "makefile.h"
 
 enum class Status
 {
@@ -142,7 +143,7 @@ int CommandProcessor::EmptyCommand()
 
 	if (variables_map_.count("version"))
 	{
-		std::cout << "THE VERSION STRING" << std::endl;
+		std::cout << VERSION_STRING << std::endl;
 		return 0;
 	}
 
@@ -242,11 +243,26 @@ int CommandProcessor::Validate()
 
 int CommandProcessor::Generate()
 {
-	AssetCollection asset_collection(working_dir_);
+	std::vector<std::filesystem::path> directories;
+
+	if (variables_map_.count("path") > 0)
+	{
+		auto paths = variables_map_["path"].as<std::vector<std::string>>();
+		for (auto& path : paths)
+			directories.push_back(std::filesystem::path(path));
+	}
+	else
+	{
+		directories.push_back(working_dir_);
+	}
 
 	HtmlGenerator html_generator(executable_dir_ / kGorgIndexTemplate, working_dir_ / "gorgindex.html");
 
-	html_generator.AddAssetCollection(asset_collection);
+	for (auto& path : directories)
+	{
+		AssetCollection asset_collection(path);
+		html_generator.AddAssetCollection(asset_collection);
+	}
 
 	return html_generator.Generate();
 }
