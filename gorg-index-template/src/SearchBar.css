@@ -1,10 +1,13 @@
 .search-bar
 {
-    display:flex;
     padding:30px;
     border-bottom:solid 1px #999999;
 }
 
+.search-bar__top
+{
+    display:flex;
+}
 
 .search-bar__logo
 {
@@ -25,6 +28,8 @@
     padding-left:25px;
     width:400px;
 }
+
+
 
 .search-bar__main:hover
 {

@@ -48,12 +48,14 @@ class SearchBar extends Component {
     render() {
         return (
             <div className="search-bar">
-                <img className="search-bar__logo" src={logo} />
-                <div className="search-bar__main">
-                    <form className="search-bar__form" onSubmit={this.handleSubmit}>
-                        <input autoFocus className="search-bar__search-string" name="searchString" value={this.state.searchString} onChange={this.handleChange} />
-                        <button className="search-bar__search-button" type="submit" ><FontAwesomeIcon icon={faSearch} /></button>
-                    </form>
+                <div className="search-bar__top">
+                    <img className="search-bar__logo" src={logo} />
+                    <div className="search-bar__main">
+                        <form className="search-bar__form" onSubmit={this.handleSubmit}>
+                            <input autoFocus className="search-bar__search-string" name="searchString" value={this.state.searchString} onChange={this.handleChange} />
+                            <button className="search-bar__search-button" type="submit" ><FontAwesomeIcon icon={faSearch} /></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         );
