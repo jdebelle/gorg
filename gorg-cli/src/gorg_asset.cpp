@@ -17,6 +17,16 @@ std::string GorgAsset::GetDescription() const
 	return description_;
 }
 
+void GorgAsset::SetTags(const std::vector<std::string>& tags)
+{
+	tags_ = tags;
+}
+
+const std::vector<std::string>& GorgAsset::GetTags() const
+{
+	return tags_;
+}
+
 bool GorgAsset::IsValid() const
 {
 	if (title_.length() == 0)

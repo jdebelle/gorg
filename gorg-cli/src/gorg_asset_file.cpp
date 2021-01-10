@@ -41,6 +41,26 @@ GorgAssetFile::GorgAssetFile(const path& path) :
 			return;
 		}
 
+		auto tags = node["tags"];
+
+		if (tags.IsDefined() && !tags.IsSequence())
+		{
+			error_msg_ = "Invalid Keywords Definition";
+			return;
+		}
+
+		if (tags.IsDefined())
+		{
+			for (auto tag : tags)
+			{
+				if (!tag.IsDefined() || !tag.IsScalar())
+				{
+					error_msg_ = "Invalid Tag Definition";
+					return;
+				}
+			}
+		}
+
 		auto keywords = node["keywords"];
 
 		if (keywords.IsDefined() && !keywords.IsSequence())
@@ -71,8 +91,11 @@ GorgAssetFile::GorgAssetFile(const path& path) :
 				gorg_asset_->AddKeyword(keyword.as<std::string>());
 		}
 
-
-
+		if (tags.IsDefined())
+		{
+			auto tags_vec = tags.as<std::vector<std::string>>();
+			gorg_asset_->SetTags(tags_vec);
+		}
 	}
 	catch (const YAML::ParserException& e)
 	{

@@ -3,7 +3,7 @@
 browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 install_path := $(shell grep INSTALL_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 7zip := $(shell grep 7ZIP_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
-version := 0.0.0
+version := $(subst v,,$(shell git describe --tags --dirty))
 index_template_output := gorg-index-template/build/template.html
 index_template_dependencies := $(shell find gorg-index-template/src)
 cli_dependencies := gorg-cli/templates/gorgindex.html.template
@@ -29,7 +29,7 @@ gorg-cli/templates/gorgindex.html.template: $(index_template_output)
 	cp $(index_template_output) gorg-cli/templates/gorgindex.html.template
 
 
-.PHONY: cli-version
+.PHONY: cli-version			# Make the .h file that contains version information
 cli-version: gorg-cli/inc/makefile.h.template
 	cat gorg-cli/inc/makefile.h.template |\
 		sed -r "s/\{\{VERSION_STRING\}\}/\"$(version)\"/" >\
@@ -49,7 +49,7 @@ clean-cli:
 	rm -rf gorg-cli/bin
 
 
-.PHONY: build
+.PHONY: build				# Generate binary version in build subfolder
 build: build/gorg.zip
 build/gorg.zip: cli-version gorg-cli/bin/gorg.exe
 	rm -rf build/gorg/

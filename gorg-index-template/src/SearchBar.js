@@ -7,29 +7,52 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 let FA = require('react-fontawesome');
 
+class TagBar extends Component
+{
+    renderTagElement(key, name)
+    {
+        let className = "search-bar__tag";
+        if (this.props.nav.tag == name)
+            className += " selected"
 
+        return (
+                <div key={key}
+                    className={className}
+                    onClick={() => this.props.nav.setTag(name)}>
+                        {name}
+                </div>
+        );
+    }
+
+    render()
+    {
+
+        let tags = this.props.tags.map((tag, index) => this.renderTagElement(index, tag));
+
+        return (
+            <div className="search-bar__tag-bar">
+                {tags}
+            </div>
+        );
+    }
+}
 
 class SearchBar extends Component {
 
     constructor(props)
     {
-        console.log(props);
         super(props);
         this.state = {
-            searchString: props.query    
+            searchString: props.nav.query    
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     
     search(str)
     {
-        this.props.history.push({
-            pathname: '/',
-            search: `?q=${str}`
-          });
+        this.props.nav.setQuery(str);
     }
 
     handleChange(event) 
@@ -57,9 +80,14 @@ class SearchBar extends Component {
                         </form>
                     </div>
                 </div>
+                <TagBar 
+                    nav={this.props.nav}
+                    tags={this.props.tags}/>
             </div>
         );
     }
 }
+
+
 
 export default SearchBar;

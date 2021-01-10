@@ -52,6 +52,10 @@ void HtmlGenerator::AddAssetCollection(const AssetCollection& asset_collection)
 		json_asset["title"] = asset.GetTitle();
 		json_asset["description"] = asset.GetDescription();
 
+		const auto& tags = asset.GetTags();
+		if (tags.size() > 0)
+			json_asset["tags"] = tags;
+
 		auto asset_folder = asset_file.GetPath();
 		asset_folder.remove_filename();
 		

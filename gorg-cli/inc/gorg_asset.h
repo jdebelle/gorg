@@ -17,9 +17,14 @@ public:
 	void AddKeyword(const std::string& keyword);
 	const std::vector<std::string>& GetKeywords() const;
 
+	void SetTags(const std::vector<std::string>& tags);
+	const std::vector<std::string>& GetTags() const;
+
 private:
 	std::string title_;
 	std::string description_;
+
+	std::vector<std::string> tags_;
 
 	std::string absolute_path_;
 	std::string relative_path_;
