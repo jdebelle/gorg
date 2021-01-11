@@ -1,9 +1,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="*" UpgradeCode="CB7D1DDD-AE29-4102-8527-9C2AEBAE7FED" 
-        Name="Gorg" Version="0.0.1" Manufacturer="The Gorg Foundation" Language="1033">
+        Name="Gorg" Version="{{VERSION_STRING}}" Manufacturer="The Gorg Foundation" Language="1033">
         
         <Package InstallerVersion="200" Compressed="yes" Comments="Windows Installer Package"/>
         <Media Id="1" Cabinet="gorg.cab" EmbedCab="yes"/>
+       
+        <MajorUpgrade
+            DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+        
+
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder">
@@ -15,6 +20,17 @@
         </Directory>
 
         <DirectoryRef Id="BIN_DIR">
+            <Component Id ="envpath" Guid="085790F3-B4BD-4458-94FF-3C9DAD0E5ACA">
+                <CreateFolder />
+                <Environment 
+                    Id="SET_ENV"
+                    Action="set"
+                    Name="Path"
+                    Part="last"    
+                    Permanent="no"
+                    System="yes"
+                    Value="[BIN_DIR]" />
+            </Component>
             <Component Id="gorg.exe" Guid="A8315F21-3BC8-4603-8AF6-F470792136E9">
                 <File Id="gorg.exe" Source="src/bin/gorg.exe" KeyPath="yes" Checksum="yes"/>
             </Component>
@@ -29,6 +45,7 @@
         </DirectoryRef>
 
         <Feature Id="DefaultFeature" Level="1">
+            <ComponentRef Id="envpath" />
             <ComponentRef Id="gorg.exe"/>
             <ComponentRef Id="gorgasset.template"/>
             <ComponentRef Id="gorgindex.html.template"/>

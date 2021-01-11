@@ -9,9 +9,9 @@ tags:
 # Example of a completed file
 # Comment lines, such as these, will be stripped out
 #
-# Title: An example document
+# title: An example document
 #
-# Description: A multiline description of the given asset
+# description: A multiline description of the given asset
 #   in all of it's glorious details. Add as much information
 #   as you like, as it will help. If in doubt, just follow
 #   the YAML standard.
@@ -19,7 +19,7 @@ tags:
 #   Blank lines are also allowed, just make sure to leave
 #   the indentation on the previous line.
 #
-# Keywords:
+# keywords:
 #   some
 #   keywords
 #   that
@@ -28,3 +28,8 @@ tags:
 #   fit
 #   the
 #   description
+#
+# tags:
+#  - Work
+#  - Finances
+#
