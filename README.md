@@ -1,33 +1,30 @@
-# gorg
+# Gorg
+
+Gorg is a small command-line utility that is there to help organize
+files and folders located on your PC, on network drives or on cloud
+file hosting services.
+
+## Latest Binary Release:
+Windows: [gorg-0.1.0.msi](https://github.com/jdebelle/gorg/releases/download/v0.1.0/gorg-0.1.0.msi)
 
 
-Current Development Dependencies:
-C++:
+## Development Guidelines
+
+ - Changelog format: https://keepachangelog.com/en/1.0.0/
+ - Semantic Versionning: https://semver.org/spec/v2.0.0.html
+ - C++ Style Guide: https://google.github.io/styleguide/cppguide.html
+ - CSS Style Guide: http://getbem.com/introduction/
+
+
+## Dependencies:
+### C++:
  - boost
  - inja
  - nholmann/json
  - yamlcpp
 
-Html Template Generation:
+### HTML Template:
  - nodejs
  - reactjs
- - inliner (transform into a single file)
-
-
-
-
-
-These are the standards followed by Gorg:
-
-Changelog format:
-https://keepachangelog.com/en/1.0.0/
-
-Semantic Versionning:
-https://semver.org/spec/v2.0.0.html
-
-C++ Style Guide:
-https://google.github.io/styleguide/cppguide.html
-
-CSS Style Guide:
-http://getbem.com/introduction/
+ - font-awesome
 
