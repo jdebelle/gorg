@@ -31,14 +31,15 @@ gorg-cli/templates/gorgindex.html.template: $(index_template_output)
 
 
 .PHONY: cli-version			# Make the .h file that contains version information
-cli-version: gorg-cli/inc/makefile.h.template
+cli-version: gorg-cli/inc/makefile.h
+gorg-cli/inc/makefile.h: gorg-cli/inc/makefile.h.template
 	cat gorg-cli/inc/makefile.h.template |\
 		sed -r "s/\{\{VERSION_STRING\}\}/\"$(version)\"/" >\
 		gorg-cli/inc/makefile.h
 
 .PHONY: cli					# Build the gorg CLI binaries
 cli: gorg-cli/bin/gorg.exe
-gorg-cli/bin/gorg.exe: $(cli_dependencies)
+gorg-cli/bin/gorg.exe: $(cli_dependencies) gorg-cli/inc/makefile.h
 	mkdir -p gorg-cli/build
 	cd gorg-cli/build ; cmake .. ; cmake --build .
 	
@@ -61,7 +62,7 @@ build/gorg.zip: gorg-cli/bin/gorg.exe
 
 
 .PHONY: release				# Generate installers
-release: clean-cli
+release: clean-cli build
 	rm -rf gorg-installer/out
 	mkdir -p gorg-installer/out
 	cat gorg-installer/win-gorg.wxs |\
@@ -78,15 +79,7 @@ release: clean-cli
 
 .PHONY: install				# Install gorg to the specified path
 install: release
-	msiexec -i "release\gorg-0.0.0-1-g7cea406-dirty.msi"
-
-install_old: cli-version gorg-cli/bin/gorg.exe
-	mkdir -p "$(install_path)"
-	rm -rf "$(install_path)/bin/"
-	rm -rf "$(install_path)/templates/"
-	cp -r gorg-cli/bin/ "$(install_path)/bin/"
-	cp -r gorg-cli/templates/ "$(install_path)/templates/"
-
+	msiexec -i "release\gorg-$(version).msi"
 
 .PHONY: docs				# Build Documentation for the Project
 docs: gorg-docs/_build/html/index.html
