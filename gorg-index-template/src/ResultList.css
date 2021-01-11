@@ -19,12 +19,14 @@
 
 .result-item__title
 {
+    display:block;
     color: rgb(175, 6, 6);
     font-family: arial, sans-serif;
     font-size: 20px;
     font-weight: 400;
     line-height: 26px;
-    text-align: left
+    text-align: left;
+    margin-top: 3px;
 }
 
 .result-item__description
@@ -40,4 +42,32 @@
     font-style: normal;
     font-weight: 400;
     line-height: 18.2px
+}
+
+.result-item__path p
+{
+    display:inline;
+    vertical-align:bottom;
+    line-height:15px;
+}
+
+.result-item__copy
+{
+    color: #999999;
+    border:solid 1px;
+    border-radius: 3px;
+    padding: 1px 3px 1px;
+    font-size:14px;
+    margin-left:10px;  
+    transition: background-color 0.2s; 
+}
+
+.result-item__copy:hover
+{
+    background-color:#eeeeee;
+}
+
+.result-item__copy:active
+{
+    background-color:#dddddd;
 }

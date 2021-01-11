@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 
 import './ResultList.css';
 
@@ -29,7 +31,10 @@ class ResultItem extends Component
     render(){
         return(
             <div className="result-item">
-                <div className="result-item__path">{this.props.asset.path}</div>
+                <div className="result-item__path">
+                    <p>{this.props.asset.path}</p>
+                    <a className="result-item__copy" onClick={() => {navigator.clipboard.writeText(this.props.asset.path);}}><FontAwesomeIcon icon={faClipboard} /></a>
+                </div>
                 <a className="result-item__title" href={this.props.asset.path}>{this.props.asset.title}</a>
                 <div className="result-item__description">{this.props.asset.description}</div>
             </div>
