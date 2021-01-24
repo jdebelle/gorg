@@ -41,7 +41,7 @@ gorg-cli/inc/makefile.h: gorg-cli/inc/makefile.h.template
 cli: gorg-cli/bin/gorg.exe
 gorg-cli/bin/gorg.exe: $(cli_dependencies) gorg-cli/inc/makefile.h
 	mkdir -p gorg-cli/build
-	cd gorg-cli/build ; cmake .. ; cmake --build .
+	cd gorg-cli/build ; cmake -DCMAKE_BUILD_TYPE=Release .. ; cmake --build . --config Release
 	
 
 .PHONY: clean-cli			# Clean the gorg CLI binaries
