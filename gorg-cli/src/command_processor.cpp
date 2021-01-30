@@ -6,6 +6,9 @@
 #include <queue>
 #include <ctime>
 
+
+
+
 #pragma warning( push, 0 )
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
@@ -18,6 +21,10 @@
 #include "asset_collection.h"
 #include "html_generator.h"
 #include "makefile.h"
+#include "help.h"
+
+#include <windows.h>
+#include <shellapi.h>
 
 enum class Status
 {
@@ -43,8 +50,8 @@ CommandProcessor::CommandProcessor(
 	options_description_(options_description),
 	variables_map_(variables_map)
 {
+	commands_.insert(CommandPair("help", std::bind(&CommandProcessor::Help, this)));
 	commands_.insert(CommandPair("asset", std::bind(&CommandProcessor::Asset, this)));
-	commands_.insert(CommandPair("validate", std::bind(&CommandProcessor::Validate, this)));
 	commands_.insert(CommandPair("generate", std::bind(&CommandProcessor::Generate, this)));
 }
 
@@ -73,9 +80,25 @@ int CommandProcessor::Invoke()
 	return command_iterator->second();
 }
 
+
+
 void CommandProcessor::PrintHelp()
 {
-	std::cout << options_description_ << std::endl;
+	std::cout << help_main << std::endl;
+}
+
+void CommandProcessor::OpenHelpPage(std::filesystem::path path)
+{
+	std::cout << "Opening html help page..." << std::endl;
+	auto file = executable_dir_ / path;
+	std::cout << file << std::endl;
+	ShellExecute(0, 0, file.string().c_str(), 0, 0, SW_SHOW);
+}
+
+int CommandProcessor::Help()
+{
+	PrintHelp();
+	return 0;
 }
 
 
@@ -155,6 +178,18 @@ int CommandProcessor::EmptyCommand()
 
 int CommandProcessor::Asset()
 {
+	if (variables_map_.count("help") > 0)
+	{
+		OpenHelpPage(help_asset);
+		return 0;
+	}
+
+	if (variables_map_.count("validate") > 0)
+	{
+		return Validate();
+	}
+
+
 	if (variables_map_.count("init") == 0)
 	{
 		std::cout << "The only implemented action is --init" << std::endl;
@@ -243,11 +278,17 @@ int CommandProcessor::Validate()
 
 int CommandProcessor::Generate()
 {
+	if (variables_map_.count("help") > 0)
+	{
+		OpenHelpPage(help_generate);
+		return 0;
+	}
+
 	std::vector<std::filesystem::path> directories;
 
-	if (variables_map_.count("path") > 0)
+	if (variables_map_.count("root") > 0)
 	{
-		auto paths = variables_map_["path"].as<std::vector<std::string>>();
+		auto paths = variables_map_["root"].as<std::vector<std::string>>();
 		for (auto& path : paths)
 			directories.push_back(std::filesystem::path(path));
 	}

@@ -1,22 +1,21 @@
 .gorgasset File
 =================
 
-Gorg uses special files, called meta files, which contain information about a given
+Gorg uses special files, called asset files, which contain information about a given
 asset. Instead of opening the asset file or the asset folder, gorg only opens these
 meta files, which are much faster to parse through and contain the exact
 information gorg requires to provide relevant search results.
 
-Meta Filename
+The Payload
 ----------------------
 
-A meta file can either be attached to an asset file or an asset folder. The meta
-file's name is enough to determine that it is a gorg meta file and to determine
-which asset it belongs to. The name of the meta file will follow one of the
-following conventions:
+A meta file is always located inside of a folder which contains the actual
+asset payload. This maximises the probability that the payload and the asset
+file remain together throughout the lifetime of the asset, regardless of which
+software is used to manipulate the payload. The expected structure is the
+following:
 
-* :code:`<path of the folder asset>/<name of the folder asset>/.gorgasset`
-* :code:`<path of folder asset>/<name of the folder asset>.gorgasset` -- NOT SUPPORTED YET, MAYBE FUTURE
-* :code:`<path of file asset>/<name of the file asset>.<ext>.gorgasset` -- NOT SUPPORTED YET, MAYBE FUTURE
+* :code:`<path to the folder asset>/<name of the folder asset>/.gorgasset`
 
 
 Meta File Content

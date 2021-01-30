@@ -20,10 +20,11 @@ int main (int argc, char * argv[])
 
     po::options_description desc("Allowed Options");
     desc.add_options()
-        ("help", "produce help message")
-        ("version", "print gorg version")
-        ("init", "initialize")
-        ("path", po::value<std::vector<std::string>>()->multitoken(), "path to act on")
+        ("help,h", "produce help message")
+        ("version,v", "print gorg version")
+        ("init,i", "initialize")
+        ("validate", "validate that the asset is correctly formated")
+        ("root", po::value<std::vector<std::string>>()->multitoken(), "path to act on")
         ("command", po::value<std::string>(), "command to execute")
         ("subargs", po::value<std::vector<std::string> >(), "Arguments for command");
         

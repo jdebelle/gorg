@@ -33,9 +33,11 @@ private:
 
 	int EmptyCommand();
 	void PrintHelp();
+	void OpenHelpPage(std::filesystem::path path);
 	int Asset();
 	int Validate();
 	int Generate();
+	int Help();
 
 	int EditTextFile(const std::filesystem::path& path);
 	bool CreateFromTemplateIfNotExist(const std::filesystem::path& template_file, const std::filesystem::path& path) throw(std::string);
