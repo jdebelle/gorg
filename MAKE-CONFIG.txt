@@ -2,3 +2,4 @@ BROWSER=/c/Program Files (x86)/Mozilla Firefox/firefox.exe
 7ZIP_PATH=/c/Program Files/7-Zip/7z.exe
 WIX_CANDLE=/c/Program Files (x86)/WiX Toolset v3.11/bin/candle.exe
 WIX_LIGHT=/c/Program Files (x86)/WiX Toolset v3.11/bin/light.exe
+WIX_HEAT=/c/Program Files (x86)/WiX Toolset v3.11/bin/heat.exe

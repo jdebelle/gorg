@@ -15,10 +15,12 @@
                 <Directory Id="APPLICATIONROOTDIRECTORY" Name="Gorg">
                     <Directory Id="BIN_DIR" Name="bin" />
                     <Directory Id="TEMPLATES_DIR" Name="templates" />
+                    <Directory Id="DOCS_DIR" Name="docs" />
                 </Directory>
             </Directory>
         </Directory>
 
+        
         <DirectoryRef Id="BIN_DIR">
             <Component Id ="envpath" Guid="085790F3-B4BD-4458-94FF-3C9DAD0E5ACA">
                 <CreateFolder />
@@ -43,12 +45,14 @@
                 <File Id="gorgindex.html.template" Source="src/templates/gorgindex.html.template" KeyPath="yes" Checksum="yes"/>
             </Component>
         </DirectoryRef>
+        
 
         <Feature Id="DefaultFeature" Level="1">
             <ComponentRef Id="envpath" />
             <ComponentRef Id="gorg.exe"/>
             <ComponentRef Id="gorgasset.template"/>
             <ComponentRef Id="gorgindex.html.template"/>
+            <ComponentGroupRef Id="GorgDocumentationId" />
         </Feature>
     </Product>
 </Wix>

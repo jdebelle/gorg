@@ -10,26 +10,27 @@ version_pure := $(subst v,,$(shell git describe --tags | sed -r "s/v([0-9]+\.[0-
 #################################################
 
 7zip := $(shell grep 7ZIP_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
-candle := "$(shell grep WIX_CANDLE MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")"
-light := "$(shell grep WIX_LIGHT MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")"
 install_path := $(shell grep INSTALL_PATH MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 
 .PHONY: build				# Generate binary version in build subfolder
-build: build/gorg.zip
-build/gorg.zip: gorg-cli/bin/gorg.exe
+build: build/gorg/bin/gorg.exe
+build/gorg/bin/gorg.exe: gorg-cli/bin/gorg.exe
 	rm -rf build/gorg/
 	mkdir -p build/gorg/
 	cp -r gorg-cli/bin/ build/gorg/bin/
 	cp -r gorg-cli/templates/ build/gorg/templates/	
 
+.PHONY: publish
+publish: clean-cli clean-docs release/gorg-$(version).msi
+	$(if $(shell cd gorg-cli/inc; grep -rn FIXME --include="*.cpp","*.h","*.hpp"),		\
+		$(error CSharp Code still has FIXMEs in it),									\
+		$(info FIXME in code inc verified))
 
-.PHONY: release				# Generate installers
-release: clean-cli clean-docs clean-index-template build
-	$(if $(shell grep -rn FIXME --include="*.cpp","*.h","*.hpp"),		\
-		$(error CSharp Code still has FIXMEs in it),					\
-		$(info FIXME in code verified))
+	$(if $(shell cd gorg-cli/src; grep -rn FIXME --include="*.cpp","*.h","*.hpp"),		\
+		$(error CSharp Code still has FIXMEs in it),									\
+		$(info FIXME in code src verified))
 
-	$(if $(shell grep -rn FIXME --include="*.rst"),						\
+	$(if $(shell cd gorg-docs; grep -rn FIXME --include="*.rst"),		\
 		$(error Docs still has FIXMEs in it),							\
 		$(info FIXME in docs verified))
 
@@ -37,6 +38,17 @@ release: clean-cli clean-docs clean-index-template build
 		$(info Changlelog verified), 									\
 		$(error Changelog does not contain current release))
 
+ifeq ($(shell git describe --all),heads/main)
+	$(info On branch main, ok for release)
+else
+	$(error Not on main branch, cannot release)
+endif
+	cp release/gorg-$(version).msi "/c/Users/NXZT 210/Desktop/gorg-$(version).msi"
+
+
+
+.PHONY: release				# Generate installers
+release:  clean-index-template build
 	rm -rf gorg-installer/out
 	mkdir -p gorg-installer/out
 	cat gorg-installer/win-gorg.wxs |\
@@ -137,4 +149,32 @@ clean-cli:
 	rm -rf gorg-cli/out
 	rm -rf gorg-cli/bin
 	rm -f gorg-cli/inc/makefile.h
+
+
+
+###################################################
+#				BUILD INSTALLER
+###################################################
+
+candle := "$(shell grep WIX_CANDLE MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")"
+light := "$(shell grep WIX_LIGHT MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")"
+heat := "$(shell grep WIX_HEAT MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")"
+
+.PHONY: installer				# Generate installers
+installer: release/gorg-$(version).msi
+
+release/gorg-$(version).msi: build/gorg/bin/gorg.exe
+	rm -rf gorg-installer/out
+	mkdir -p gorg-installer/out
+	cat gorg-installer/win-gorg.wxs |\
+		sed "s/\{\{VERSION_STRING\}\}/$(version_pure)/" >\
+		gorg-installer/out/win-gorg.wxs
+	cp -r build/gorg/ gorg-installer/out/src/
+	cd gorg-installer/out; $(heat) dir "..\..\gorg-cli\docs" -o documentation.wxs -scom -frag -srd -sreg -gg -cg GorgDocumentationId -dr DOCS_DIR
+	cd gorg-installer/out; $(candle) win-gorg.wxs documentation.wxs
+	cd gorg-installer/out; $(light) win-gorg.wixobj documentation.wixobj -o win-gorg.msi -b "..\..\gorg-cli\docs"
+	mkdir -p release
+	cp gorg-installer/out/win-gorg.msi release/gorg-$(version).msi
+
+
 
