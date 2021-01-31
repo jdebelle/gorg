@@ -257,6 +257,9 @@ int CommandProcessor::Asset()
 	return 0;
 }
 
+//
+//	TODO - Validate method for asset should only validate the current asset.
+//
 int CommandProcessor::Validate()
 {
 	AssetCollection asset_collection(working_dir_);

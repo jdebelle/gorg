@@ -17,7 +17,3 @@ with the underlying network structure, gorg does away with how you structure you
 folders to make files searchable and easy to find.
 
 
-
-FIXME - Validate is incorrect for asset
-FIXME - Installer does not include docs
-FIXME - Generate command does not have help

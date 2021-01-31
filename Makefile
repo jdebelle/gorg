@@ -3,7 +3,7 @@
 browser := $(shell grep BROWSER MAKE-CONFIG.txt | sed -r "s/\S*\s*=\s*(.*)/\1/")
 version := $(subst v,,$(shell git describe --tags --dirty))
 version_pure := $(subst v,,$(shell git describe --tags | sed -r "s/v([0-9]+\.[0-9]+\.[0-9]+).*/\1/"))
-
+date := $(shell date +"%Y-%m-%d")
 
 #################################################
 #				GENERAL COMMANDS
@@ -34,9 +34,9 @@ publish: clean-cli clean-docs release/gorg-$(version).msi
 		$(error Docs still has FIXMEs in it),							\
 		$(info FIXME in docs verified))
 
-	$(if $(shell grep "$(version)" CHANGELOG.txt), 						\
-		$(info Changlelog verified), 									\
-		$(error Changelog does not contain current release))
+	$(if $(shell grep "\[$(subst .,\.,$(version))\] - $(date)" CHANGELOG.txt), 		\
+		$(info Changlelog verified), 												\
+		$(error Changelog does not contain current release with today's date))
 
 ifeq ($(shell git describe --all),heads/main)
 	$(info On branch main, ok for release)
