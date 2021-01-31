@@ -5,7 +5,7 @@ files and folders located on your PC, on network drives or on cloud
 file hosting services.
 
 ## Latest Binary Release:
-Windows: [gorg-0.1.0.msi](https://github.com/jdebelle/gorg/releases/download/v0.1.0/gorg-0.1.0.msi)
+Windows: [gorg-0.1.1.msi](https://github.com/jdebelle/gorg/releases/download/v0.1.1/gorg-0.1.1.msi)
 
 
 ## Development Guidelines
