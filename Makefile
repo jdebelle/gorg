@@ -38,11 +38,11 @@ publish: clean-cli clean-docs release/gorg-$(version).msi
 		$(info Changlelog verified), 												\
 		$(error Changelog does not contain current release with today's date))
 
-ifeq ($(shell git describe --all),heads/main)
-	$(info On branch main, ok for release)
-else
-	$(error Not on main branch, cannot release)
-endif
+	#
+	#	TODO - Check git status. Main should be contained in current and current should
+	#			be pushed back to main after successful release.
+	#		
+	#
 	cp release/gorg-$(version).msi "/c/Users/NXZT 210/Desktop/gorg-$(version).msi"
 
 
